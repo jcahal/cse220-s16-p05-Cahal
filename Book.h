@@ -5,21 +5,42 @@
 #ifndef P5_BOOK_H
 #define P5_BOOK_H
 
-#include <string.h>
+#include <cstring>
+
+typedef enum {
+	BOOK,
+	MAGAZINE,
+	FICTION,
+	TEXTBOOK
+} Category;
 
 class Book {
 private:
-	char *title;
-	float price;
+	int bookID;
+	Category bookCategory;
+	char title[255];
+	double price;
+	int inventory;
+	Book *next;
 
 public:
-	Book();
-	Book(char *title, float price);
+	// constructors
+	Book(); // default
+	Book(int bookID, Category category, const char title[], double price, int inventory); // parametrized constructor
+	virtual ~Book(); // destructor
 
+	int getID();
+	Category getCategory();
 	char *getTitle();
-	float getPrice();
+	double getPrice();
+	int getInventory();
+	Book *getNext();
+
+	void setID(int bookID);
+	void setCategory(Category category);
 	void setTitle(char *title);
 	void setPrice(float price);
+	void setInventory(int inventory);
 };
 
 #endif //P5_BOOK_H

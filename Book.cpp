@@ -4,28 +4,63 @@
 
 #include "Book.h"
 
-// test
-Book::Book() { 
-	this->Book("Unknown", 0.00);
+Book::Book() {
+	this->Book(-1, "Unknown", 0.00, 1, BOOK);
 }
 
-Book::Book(char *title, float price) {
+Book::Book(int bookID, const char title[], double price, int inventory, Category category = BOOK) {
+	this->setID(bookID);
+	this->setCategory(category);
 	this->setTitle(title);
 	this->setPrice(price);
+	this->setInventory(inventory);
+	this->next = 0;
+}
+
+virtual Book::~Book() {
+	std::cout << "Book destroyed" << endl;
+}
+
+int Book::getID() {
+	return this->bookID;
+}
+
+Category Book::getCategory() {
+	return this->bookCategory;
 }
 
 char *Book::getTitle() {
 	return this->title;
 }
 
-float Book::getPrice() {
+double Book::getPrice() {
 	return this->price;
 }
 
-void Book::setTitle(char *title) {
+int Book::getInventory() {
+	return this->inventory;
+}
+
+Book *Book::getNext() {
+	return this->next;
+}
+
+void Book::setID(int bookID) {
+	this->bookID = bookID;
+}
+
+void Book::setCategory(Category category) {
+	this->bookCategory = category;
+}
+
+void Book::setTitle(const char title[]) {
 	strcpy(this->title, title);
 }
 
 void Book::setPrice(float price) {
 	this->price = price;
+}
+
+void Book::setInventory(int inventory) {
+	this->inventory = inventory;
 }

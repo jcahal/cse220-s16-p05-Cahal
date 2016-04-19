@@ -10,8 +10,7 @@
 class Catalog {
 private:
 	static int nBooks;
-	static Book *head;
-	Book *books;
+	Book *head;
 
 public:
 	Catalog();
