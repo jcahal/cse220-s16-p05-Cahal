@@ -5,7 +5,7 @@
 #ifndef CSE220_PROJECT5_FICTION_H
 #define CSE220_PROJECT5_FICTION_H
 
-#include <cstring>
+#include <iostream>
 #include "book.h"
 
 class Fiction: public Book{
@@ -21,7 +21,7 @@ public:
 
     virtual ~Fiction();
 
-    char getAuthor();
+    char *getAuthor();
 
     void setAuthor(char *author);
 };

@@ -5,6 +5,7 @@
 #ifndef P5_BOOK_H
 #define P5_BOOK_H
 
+#include <iostream>
 #include <cstring>
 
 typedef enum {

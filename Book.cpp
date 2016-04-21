@@ -5,10 +5,10 @@
 #include "Book.h"
 
 Book::Book() {
-	this->Book(-1, NULL, 0.00, 1, BOOK);
+	Book(-1, NULL, 0.00, 1, BOOK);
 }
 
-Book::Book(int bookID, const char title[], double price, int inventory, Category category = BOOK) {
+Book::Book(int bookID, const char title[], double price, int inventory, Category category) {
 	this->setID(bookID);
 	this->setCategory(category);
 	this->setTitle(title);
@@ -18,7 +18,7 @@ Book::Book(int bookID, const char title[], double price, int inventory, Category
 }
 
 virtual Book::~Book() {
-	std::cout << "Book destroyed" << endl;
+	std::cout << "Book destroyed" << std::endl;
 }
 
 int Book::getID() {

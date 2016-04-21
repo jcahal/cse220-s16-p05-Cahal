@@ -6,7 +6,6 @@
 #define P5_CATALOG_H
 
 #include <iostream>
-
 #include "Book.h"
 
 class Catalog {

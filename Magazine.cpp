@@ -5,20 +5,21 @@
 #include "Magazine.h"
 
 Magazine::Magazine() {
-    this->Magazine(-1, NULL, 0.00, 1, 0, MAGAZINE);
+    Magazine(-1, NULL, 0.00, 1, 0, MAGAZINE);
 }
 
-Magazine::Magazine(int bookID, const char *title, double price, int inventory, int issue, Category category =MAGAZINE) {
+Magazine::Magazine(int bookID, const char *title, double price, int inventory, int issue, Category category) {
     this->setID(bookID);
-    this->setCategory(category);
     this->setTitle(title);
     this->setPrice(price);
     this->setInventory(inventory);
+    this->setIssue(issue);
+    this->setCategory(category);
 }
 
 
 virtual Magazine::~Magazine(){
-    std::cout << "Magazine destroyed" << endl;
+    std::cout << "Magazine destroyed" << std::endl;
 }
 
 

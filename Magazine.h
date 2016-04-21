@@ -5,6 +5,7 @@
 #ifndef CSE220_PROJECT5_MAGAZINE_H
 #define CSE220_PROJECT5_MAGAZINE_H
 
+#include <iostream>
 #include "Book.h"
 
 class Magazine: public Book {
@@ -17,7 +18,6 @@ public:
             : Book(bookID,title,price,inventory, category)
     {
     }
-
 
     virtual ~Magazine(); //destructor
 
