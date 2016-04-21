@@ -14,8 +14,8 @@ private:
 
 public:
     Fiction();
-    Fiction(int bookID, Category category, const char *title, double price, int inventory,char *author)
-            : Book(bookID,category,title,price,inventory)
+    Fiction(int bookID, const char *title, double price, int inventory,char *author, Category category = FICTION)
+            : Book(bookID,title,price,inventory,category)
     {
     }
 

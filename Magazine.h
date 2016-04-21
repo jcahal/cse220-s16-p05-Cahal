@@ -13,10 +13,11 @@ private:
 
 public:
     Magazine();
-    Magazine(int bookID, Category category, const char *title, double price, int inventory, int issue)
-            : Book(bookID,category,title,price,inventory)
+    Magazine(int bookID, const char *title, double price, int inventory, int issue, Category category =MAGAZINE)
+            : Book(bookID,title,price,inventory, category)
     {
     }
+
 
     virtual ~Magazine(); //destructor
 
