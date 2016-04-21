@@ -8,17 +8,14 @@ Magazine::Magazine() {
     Magazine(-1, NULL, 0.00, 1, 0, MAGAZINE);
 }
 
-Magazine::Magazine(int bookID, const char *title, double price, int inventory, int issue, Category category) {
-    this->setID(bookID);
-    this->setTitle(title);
-    this->setPrice(price);
-    this->setInventory(inventory);
+Magazine::Magazine(int bookID, const char *title, double price, int inventory, int issue, Category category = MAGAZINE)
+        : Book(bookID,title,price,inventory, category)
+{
     this->setIssue(issue);
-    this->setCategory(category);
 }
 
 
-virtual Magazine::~Magazine(){
+Magazine::~Magazine(){
     std::cout << "Magazine destroyed" << std::endl;
 }
 

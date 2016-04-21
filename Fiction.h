@@ -14,10 +14,7 @@ private:
 
 public:
     Fiction();
-    Fiction(int bookID, const char *title, double price, int inventory,char *author, Category category = FICTION)
-            : Book(bookID,title,price,inventory,category)
-    {
-    }
+    Fiction(int bookID, const char *title, double price, int inventory,char *author, Category category);
 
     virtual ~Fiction();
 

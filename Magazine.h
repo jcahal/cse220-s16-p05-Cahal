@@ -14,10 +14,8 @@ private:
 
 public:
     Magazine();
-    Magazine(int bookID, const char *title, double price, int inventory, int issue, Category category =MAGAZINE)
-            : Book(bookID,title,price,inventory, category)
-    {
-    }
+    Magazine(int bookID, const char *title, double price, int inventory, int issue, Category category);
+
 
     virtual ~Magazine(); //destructor
 

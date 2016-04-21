@@ -17,7 +17,7 @@ Book::Book(int bookID, const char title[], double price, int inventory, Category
 	this->next = 0;
 }
 
-virtual Book::~Book() {
+Book::~Book() {
 	std::cout << "Book destroyed" << std::endl;
 }
 
@@ -57,7 +57,7 @@ void Book::setTitle(const char *title) {
 	strcpy(this->title, title);
 }
 
-void Book::setPrice(float price) {
+void Book::setPrice(double price) {
 	this->price = price;
 }
 

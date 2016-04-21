@@ -8,17 +8,13 @@ Fiction::Fiction() {
     Fiction(-1, NULL, 0.00, 1, NULL, FICTION);
 }
 
-Fiction::Fiction(int bookID, const char *title, double price, int inventory, char *author, Category category) {
-    this->setID(bookID);
-    this->setTitle(title);
-    this->setPrice(price);
-    this->setInventory(inventory);
-    this->setAuthor(author);
-    this->setCategory(category);
+Fiction::Fiction(int bookID, const char *title, double price, int inventory, char *author, Category category = FICTION)
+    : Book(bookID,title,price,inventory, category)
+    {
+        this->setAuthor(author);
+    }
 
-}
-
-virtual Fiction::~Fiction(){
+Fiction::~Fiction(){
     std::cout << "Fiction book destroyed" <<std::endl;
 }
 
