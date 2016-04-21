@@ -43,7 +43,7 @@ void readData(Catalog *pCatalog) {
 			cout << "Import complete." << endl;
 		}
 	} else {
-		cout << "File does not exist" << endl;
+		cout << "File does not exist, exiting program..." << endl;
 	}
 }
 
