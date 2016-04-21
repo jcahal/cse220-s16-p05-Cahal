@@ -34,6 +34,6 @@ void Catalog::insertBook(Book *book) {
 void Catalog::printBooks(Book *book = this->head) {
 	std::cout << this->nBooks << " Total" << std::endl;
 	while(book->getNext() != 0) {
-		std::cout << "Title: " << book->getTitle() <<
+		std::cout << "Title: " << book->getTitle() <<;
 	}
 }
