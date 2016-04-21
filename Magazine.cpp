@@ -3,3 +3,14 @@
 //
 
 #include "Magazine.h"
+
+
+
+
+
+
+
+
+virtual Magazine::~Magazine(){
+    std::cout << "Magazine destroyed" << endl;
+}
