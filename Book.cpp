@@ -5,7 +5,7 @@
 #include "Book.h"
 
 Book::Book() {
-	this->Book(-1, "Unknown", 0.00, 1, BOOK);
+	this->Book(-1, NULL, 0.00, 1, BOOK);
 }
 
 Book::Book(int bookID, const char title[], double price, int inventory, Category category = BOOK) {
@@ -53,7 +53,7 @@ void Book::setCategory(Category category) {
 	this->bookCategory = category;
 }
 
-void Book::setTitle(const char title[]) {
+void Book::setTitle(const char *title) {
 	strcpy(this->title, title);
 }
 

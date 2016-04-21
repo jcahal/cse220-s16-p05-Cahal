@@ -8,6 +8,21 @@
 #include "Book.h"
 
 class Magazine: public Book {
+private:
+    int issue;
+
+public:
+    Magazine();
+    Magazine(int bookID, Category category, const char *title, double price, int inventory, int issue)
+            : Book(bookID,category,title,price,inventory)
+    {
+    }
+
+    virtual ~Magazine(); //destructor
+
+    int getIssue();
+
+    void setIssue(int issue);
 
 };
 
