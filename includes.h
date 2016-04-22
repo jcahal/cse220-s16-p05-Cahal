@@ -9,6 +9,6 @@
 #include "Catalog.h"
 #include "ShoppingCart.h"
 #include "Magazine.h"
-#include "Data.h"
+#include "FunctionsForMain.h"
 
 #endif //P5_INCLUDES_H

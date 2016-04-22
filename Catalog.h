@@ -10,16 +10,16 @@
 
 class Catalog {
 private:
-	static int nBooks;
+	int nBooks;
 	Book *head;
 
 public:
 	Catalog();
 	~Catalog();
-	void freeBooks(Book *book = this->head);
+	void freeBooks(Book *book);
 	
 	void insertBook(Book *book);
-	void printBooks(Book *book = this->head);
+	void print();
 };
 
 #endif //P5_CATALOG_H

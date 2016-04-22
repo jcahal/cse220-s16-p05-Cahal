@@ -44,6 +44,7 @@ public:
 	void setTitle(const char *title); //Notice the const char *title... is this correct?
 	void setPrice(double price);
 	void setInventory(int inventory);
+	void setNext(Book *book);
 };
 
 #endif //P5_BOOK_H

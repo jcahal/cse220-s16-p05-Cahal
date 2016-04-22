@@ -14,7 +14,7 @@ Book::Book(int bookID, const char title[], double price, int inventory, Category
 	this->setTitle(title);
 	this->setPrice(price);
 	this->setInventory(inventory);
-	this->next = 0;
+	this->next = NULL;
 }
 
 Book::~Book() {
@@ -63,4 +63,8 @@ void Book::setPrice(double price) {
 
 void Book::setInventory(int inventory) {
 	this->inventory = inventory;
+}
+
+void Book::setNext(Book *book) {
+	this->next = book;
 }

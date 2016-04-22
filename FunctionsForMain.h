@@ -12,6 +12,8 @@
 
 using namespace std;
 
+
+// This function is called first in main, it is used to import a text file of book data
 void readData(Catalog *pCatalog) {
 	char catalog[255];
 
@@ -39,14 +41,16 @@ void readData(Catalog *pCatalog) {
 			ifCatalog.ignore(255, '\n'); // for line space between books
 
 			pCatalog->insertBook(new Book(id, title, price, inventory));
-
-			cout << "Import complete." << endl;
 		}
 	} else {
 		cout << "File does not exist, exiting program..." << endl;
+		return;
 	}
+
+	cout << "Import complete." << endl;
 }
 
+// this function exports the catalog to a file
 void writeData() {
 
 }
