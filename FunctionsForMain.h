@@ -9,20 +9,33 @@
 #include <fstream>
 
 #include "Catalog.h"
+#include "ShoppingCart.h"
 
 using namespace std;
 
+void recommendationsList(Catalog *pCatalog);
+void addToCatalog(Catalog *pCatalog);
+void removeFromCatalog(Catalog *pCatalog);
+void addToShoppingCart(ShoppingCart *pShoppingCart);
+void checkOut(ShoppingCart *pShoppingCart);
+void readData(Catalog *pCatalog);
+void writeData(Catalog *pCatalog);
 
-// This function is called first in main, it is used to import a text file of book data
+//=====================================================================================
+// function readData() - This function imports a book file into a catalog
+//=====================================================================================
 void readData(Catalog *pCatalog) {
-	char catalog[255];
+	char fName[255];
 
-	cout << "Welcome to The Electronic Bookstore" << endl;
-	cout << "Please provide a catalog file for import: ";
+	cout << endl << endl << "IMPORT FILE" << endl;
+	cout << "Please provide a catalog file for import, type q to return to the main menu: ";
 
-	cin >> catalog;
+	cin >> fName;
 
-	ifstream ifCatalog(catalog);
+	if(fName[0] == 'n')
+		return;
+
+	ifstream ifCatalog(fName);
 
 	if(ifCatalog.is_open()) {
 		while(!ifCatalog.eof()) {
@@ -48,11 +61,97 @@ void readData(Catalog *pCatalog) {
 	}
 
 	cout << "Import complete." << endl;
+
+	char c;
+	cout << "Press any key to return to the main menu: ";
+	cin >> c;
 }
 
-// this function exports the catalog to a file
-void writeData() {
+//=====================================================================================
+// function writeData() - This function exports a catalog to a book file
+//=====================================================================================
+void writeData(Catalog *pCatalog) {
+	char fName[255];
 
+	cout << "Enter an export file name: ";
+
+	cin >> fName;
+
+	ofstream ofCatalog(fName);
+
+	if(ofCatalog.is_open()) {
+		Book *book = pCatalog->getHead();
+		while(book->getNext() != NULL) {
+			ofCatalog << book->getTitle() << endl;
+			ofCatalog << book->getID() << endl;
+			ofCatalog << "$" << book->getPrice() << endl;
+			ofCatalog << book->getInventory() << endl;
+			ofCatalog << endl;
+		}
+
+	} else {
+		cout << "Error opening file, exiting program..." << endl;
+		return;
+	}
+
+	cout << "Export complete." << endl;
+
+	char c;
+	cout << "Press any key to return to the main menu: ";
+	cin >> c;
 }
 
+//=====================================================================================
+// function menu() - Simply prints out menu options
+//=====================================================================================
+void menu() {
+	cout <<	endl << endl << "MENU" << endl;
+	cout << "----" << endl;
+	cout << "s: See our Recommendations!" << endl;
+	cout << "c: Add a book to the catalog." << endl;
+	cout << "r: Remove a book from the catalog." << endl;
+	cout << "a: Add books to the shopping cart." << endl;
+	cout << "b: Proceed to check out."<<endl;
+	cout << "i: Import a book file." << endl;
+	cout << "e: Export a book file." << endl;
+	cout << "p: Display the catalog." << endl;
+	cout << "q: Exit the store." << endl;
+	cout << endl << "Please enter your choice (s, c, r, a, b, i, e, p, q) --> ";
+}
+
+//=====================================================================================
+// function branching() - Process user input and branches program
+//=====================================================================================
+void branching(char c, Catalog *pCatalog, ShoppingCart *pShoppingCart) {		// branch to chosen function
+	switch(c) {
+		case 's':	recommendationsList(pCatalog);
+			break;
+		case 'c':	addToCatalog(pCatalog);
+			break;
+		case 'r':	removeFromCatalog(pCatalog);
+			break;
+		case 'a':	addToShoppingCart(pShoppingCart);
+			break;
+		case 'b':	checkOut(pShoppingCart);
+			break;
+		case 'i':	readData(pCatalog);
+			break;
+		case 'e':	writeData(pCatalog);
+			break;
+		case 'p':	pCatalog->print();
+			break;
+		case 'q':	cout << endl << "@Exiting the program..............." << endl;
+			cin.get();	//type any key.
+			break;
+		default:	cout << endl << "@ERROR - Invalid input." << endl;
+			cout << "@Try again....." << endl;
+	}
+}
+
+//=====================================================================================
+// function addToCatalog() - Prompts user for input and inserts new book into the catalog
+//=====================================================================================
+void addToCatalog(pCatalog) {
+
+}
 #endif //P5_DATA_H

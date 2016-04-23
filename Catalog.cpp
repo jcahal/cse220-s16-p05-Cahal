@@ -11,7 +11,7 @@ Catalog::Catalog() {
 
 Catalog::~Catalog() {
 	freeBooks(this->head);
-	std::cout << "Catalog Destroyed" << std::endl;
+	std::cout << ANSI_COLOR_RED"Catalog Destroyed"ANSI_COLOR_RESET << std::endl;
 }
 
 void Catalog::freeBooks(Book *book) {
@@ -20,6 +20,22 @@ void Catalog::freeBooks(Book *book) {
 	}
 	freeBooks(book->getNext());
 	delete book;
+}
+
+Book *Catalog::getHead() {
+	return this->getHead();
+}
+
+int Catalog::getNumBooks() {
+	return this->nBooks;
+}
+
+void Catalog::setHead(Book *book) {
+	this->head = book;
+}
+
+void Catalog::setNumBooks(int nBooks) {
+	this->nBooks = nBooks;
 }
 
 void Catalog::insertBook(Book *book) {
@@ -32,11 +48,29 @@ void Catalog::insertBook(Book *book) {
 	this->nBooks++;
 }
 
+void Catalog::removeBook(int id) {
+	Book *node = this->head;
+
+	if(node == NULL) {
+		std::cout << "Cannot remove, catalog Empty" << std::endl;
+		return;
+	}
+
+	Book *prev = node;
+	node = node->getNext();
+
+	while(node->getNext() != NULL) {
+		if(node->getID() == id) {
+
+		}
+	}
+}
+
 void Catalog::print() {
 	Book *book = this->head;
 
 	if(book == NULL) {
-		std::cout << "Catalog Empty" << std::endl;
+		std::cout << "Cannot print, catalog Empty" << std::endl;
 		return;
 	}
 
@@ -50,4 +84,10 @@ void Catalog::print() {
 
 		book = book->getNext();
 	}
+
+	char c;
+
+	std::cout << "Press any key to return to the main menu: ";
+
+	std::cin >> c;
 }

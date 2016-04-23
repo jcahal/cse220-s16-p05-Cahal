@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "Book.h"
+#include "ANSI_Colors.h"
 
 class Catalog {
 private:
@@ -17,8 +18,13 @@ public:
 	Catalog();
 	~Catalog();
 	void freeBooks(Book *book);
-	
+
+	Book *getHead();
+	int getNumBooks();
+	void setHead(Book *book);
+	void setNumBooks(int nBooks);
 	void insertBook(Book *book);
+	void removeBook(int id);
 	void print();
 };
 
