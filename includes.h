@@ -9,6 +9,8 @@
 #include "Catalog.h"
 #include "ShoppingCart.h"
 #include "Magazine.h"
+#include "Textbook.h"
+#include "Fiction.h"
 #include "FunctionsForMain.h"
 
 #endif //P5_INCLUDES_H

@@ -16,12 +16,13 @@ private:
 
 public:
     Textbook();
-    Textbook(int bookID, const char *title, double price, int inventory, int ISBN, char *TextBookAuthor, Category category);
+    Textbook(int bookID, const char *title, double price, int inventory, int ISBN, char *TextBookAuthor,
+             Category category);
 
 
     virtual ~Textbook(); //destructor
 
-    char getTextAuthor();
+    char *getTextAuthor();
 
     void setTextAuthor(char *TextBookAuthor);
 

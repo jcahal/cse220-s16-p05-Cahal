@@ -1,13 +1,12 @@
 #include <iostream>
 
 #include "includes.h"
-#include "Fiction.h"
 
 using namespace std;
 
 //Main declarations
-int main(int argc, char *argv[]);				// The main function
-void menu();			// display main choices
+int main(int argc, char *argv[]);		// The main function
+void menu();							// display main choices
 void branching(char c, Catalog *pCatalog, ShoppingCart *pShoppingCart);	// branch to the chosen function
 
 
@@ -18,63 +17,33 @@ void addToCatalog(Catalog *catalog){
 	//Not sure if I have to redeclare these... as I was working on getting this, I tried to access Book
 	//To do something like cin.getline(Book::title, 50), etc. etc. but I followed the similar style
 	//from the previous assignment.
+	Book *book = new Book();
+	Magazine *magazine = new Magazine();
+	Fiction *fiction = new Fiction();
+
+	//It is giving me errors when I try to include this Textbook part, but it can make when I block it out.
+
+	//Textbook *textbook = new Textbook();
+
 	int bookID;
 	char title[50];
 	double price;
 	int inventory;
 	char bookType[50];
-	Category category;
+	//Category category;
 
+	char TextBookAuthor[50];
 	int issue;
-	//Not sure how what to call in terms of with the classes. this is giving an error, says needs to be static
-	//Fiction::setAuthor(NULL);
+	int ISBN;
 	char author[50];
 
-	Book *book = new Book;
 
 	cout<<"ADDING A NEW BOOK TO THE CATALOG"<<endl;
 	cout<<"================================"<<endl;
 	cout<<"Note: Before adding a new book to the catalog, please look at what we already have..."<<endl;
 	catalog->print();
 
-	cout << "Enter the Category of the book: Textbook, Fiction, or Magazine: ";
-	cin.ignore();
-	cin.getline(bookType, 50);
-	if (strcmp(bookType, "Textbook") ==0) category = TEXTBOOK;
-	else if (strcmp(bookType, "Fiction") ==0) category = FICTION;
-	else if (strcmp(bookType, "Magazine") ==0) category = MAGAZINE;
-	else if (strcmp(bookType, "Book") ==0) category = BOOK;
-	else{
-		cout <<"Invalid input for bookType" << endl;
-		//call a break statement or a loop of some sort to have it redo the entry for category???
-	}
 
-	switch (category) {
-		case TEXTBOOK: {
-			cout<<"BookType is TEXTBOOK."<<endl;
-			//Uncertain on how to do this but almost feel that under this have it then
-			//do the construction of Textbook(bookID,title,price,category)
-			break;
-		}
-		case BOOK: {
-			cout<<"BookType is BOOK."<<endl;
-			break;
-		}
-		case FICTION: {
-			cout<<"BookType is FICTION."<<endl;
-			cout<<"Please enter name of author: "<<endl;
-			cin.getline(author,50);
-			//Perhaps should call in here fiction.setauthor(author)
-			break;
-		}
-		case MAGAZINE: {
-			cout<<"BookType is MAGAZINE."<<endl;
-			cout<<"Please enter Magazine issue: "<<endl;
-			cin>>issue;
-			//Perhaps should call in here magazine.setissue(author)
-			break;
-		}
-	}
 	cout<<"Please enter the book ID: "<<endl;
 	cin.ignore();
 	cin>>bookID;
@@ -87,12 +56,64 @@ void addToCatalog(Catalog *catalog){
 	cin.ignore();
 	cin>>inventory;
 
+	cout << "Enter the Category of the book: Textbook, Fiction, or Magazine: ";
+	cin.ignore();
+	cin.getline(bookType, 50);
+	if (strcmp(bookType, "Textbook") ==0) book->setCategory(TEXTBOOK);
+	else if (strcmp(bookType, "Fiction") ==0) book->setCategory(FICTION);
+	else if (strcmp(bookType, "Magazine") ==0) book->setCategory(MAGAZINE);
+	else if (strcmp(bookType, "Book") ==0) book->setCategory(BOOK);
+	else{
+		cout <<"Invalid input for bookType" << endl;
+		//call a break statement or a loop of some sort to have it redo the entry for category???
+	}
 
-	book->setID(bookID);
-	book->setTitle(title);
-	book->setPrice(price);
-	book->setInventory(inventory);
-	book->setCategory(category);
+	switch (book->getCategory()) {
+		case TEXTBOOK: {
+			cout<<"BookType is TEXTBOOK."<<endl;
+			cout<<"Please enter textbook's ISBN number: "<<endl;
+			cin.ignore();
+			cin>>ISBN;
+			cout<<"Please enter the textbook's author: "<<endl;
+			cin.getline(TextBookAuthor, 50);
+
+			//Same as above; giving issue in make process with the Textbook...
+			//book = new Textbook(bookID, title, price, inventory, ISBN, TextBookAuthor, TEXTBOOK);
+			catalog->insertBook(book);
+			break;
+		}
+		case BOOK: {
+			cout<<"BookType is BOOK."<<endl;
+			book = new Book(bookID, title, price, inventory, BOOK);
+			catalog->insertBook(book);
+			break;
+		}
+		case FICTION: {
+			cout<<"BookType is FICTION."<<endl;
+			cout<<"Please enter name of author: "<<endl;
+			cin.getline(author,50);
+
+			book = new Fiction(bookID, title, price, inventory, author, FICTION);
+			catalog->insertBook(book);
+			break;
+		}
+		case MAGAZINE: {
+			cout<<"BookType is MAGAZINE."<<endl;
+			cout<<"Please enter Magazine issue: "<<endl;
+			cin.ignore();
+			cin>>issue;
+			book = new Magazine(bookID, title, price, inventory, issue, MAGAZINE);
+			catalog->insertBook(book);
+			break;
+		}
+	}
+
+
+	//book->setID(bookID);
+	//book->setTitle(title);
+	//book->setPrice(price);
+	//book->setInventory(inventory);
+
 
 }
 //=====================================================================================
@@ -118,53 +139,36 @@ void checkOut(ShoppingCart *shoppingCart) {
 
 }
 
+void recommendationsList(Catalog *pCatalog) {
+
+}
+void removeFromCatalog(Catalog *pCatalog) {
+
+}
+
 //=====================================================================================
 // function main()
 //=====================================================================================
 int main(int argc, char *argv[]) {
-cout << "Starting main" << endl;
 	//Call the catalog which will bring us to import a file to start the program
 	Catalog *catalog = new Catalog();
-	ShoppingCart *shoppingCart = new ShoppingCart();
-cout << "Step" << endl;
-	cout << endl << "Welcome to The Electronic Bookstoree" << endl;
-
-	char input;
-
-	do {
-		cout << "Loop" << endl;
-		menu();
-
-		cin >> input;
-
-		branching(input, catalog, shoppingCart);
-
-	} while(input != 'q');
-
-	cout << "Out of loop" << endl;
-
-	catalog->print();
-
-	delete shoppingCart;
-	delete catalog;
-
+	ShoppingCart *pShoppingCart = new ShoppingCart();
+	cout << endl << "Welcome to The Electronic Bookstore" << endl;
 
 	char ch;
 	do {
 		menu();				// display choices
 		cin >> ch;			// enter a choice from the keyboard
 		ch = tolower(ch);	// convert to lower case
-		branching(ch, catalog, shoppingCart);		// branch to the chosen function
+		branching(ch, catalog, pShoppingCart);		// branch to the chosen function
 	}
 	while (ch != 'q');			// 'q' for quit
+
+	//catalog->print();
+	delete pShoppingCart;
+	delete catalog;
+
 	return 0;
-}
-
-void recommendationsList(Catalog *pCatalog) {
-
-}
-void removeFromCatalog(Catalog *pCatalog) {
-
 }
 
 //=====================================================================================
@@ -174,7 +178,9 @@ void branching(char c, Catalog *pCatalog, ShoppingCart *pShoppingCart) {		// bra
 	switch(c) {
 		case 's':	recommendationsList(pCatalog);
 			break;
-		case 'c':	addToCatalog(pCatalog);
+		case 'c':	{
+			cout<<"Add to catalog called..."<<endl;
+			addToCatalog(pCatalog);}
 			break;
 		case 'r':	removeFromCatalog(pCatalog);
 			break;
