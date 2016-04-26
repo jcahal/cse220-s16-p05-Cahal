@@ -8,8 +8,7 @@ Textbook::Textbook() {
     Textbook(-1, NULL, 0.00, 1,0,NULL, TEXTBOOK);
 }
 
-Textbook::Textbook(int bookID, const char *title, double price, int inventory, int ISBN, char *TextBookAuthor,
-                   Category category = TEXTBOOK)
+Textbook::Textbook(int bookID, const char *title, double price, int inventory, int ISBN, char *TextBookAuthor, Category category)
         : Book(bookID,title,price,inventory, category)
 {
     this->setISBN(ISBN);

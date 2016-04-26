@@ -6,11 +6,11 @@
 #define P5_INCLUDES_H
 
 #include "Book.h"
-#include "Catalog.h"
-#include "ShoppingCart.h"
 #include "Magazine.h"
 #include "Textbook.h"
 #include "Fiction.h"
 #include "FunctionsForMain.h"
+#include "Catalog.h"
+#include "ShoppingCart.h"
 
 #endif //P5_INCLUDES_H

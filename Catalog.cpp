@@ -87,7 +87,7 @@ void Catalog::print() {
 
 	char c;
 
-	std::cout << "Press any key to return to the main menu: ";
+	std::cout << "Press any key to continue: ";
 
 	std::cin >> c;
 }

@@ -8,7 +8,7 @@ Fiction::Fiction() {
     Fiction(-1, NULL, 0.00, 1, NULL, FICTION);
 }
 
-Fiction::Fiction(int bookID, const char *title, double price, int inventory, char *author, Category category = FICTION)
+Fiction::Fiction(int bookID, const char *title, double price, int inventory, char *author, Category category)
     : Book(bookID,title,price,inventory, category)
     {
         this->setAuthor(author);

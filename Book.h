@@ -29,7 +29,7 @@ protected:
 public:
 	// constructors
 	Book(); // default
-	Book(int bookID, const char title[], double price, int inventory, Category category = BOOK); // parametrized constructor
+	Book(int bookID, const char title[], double price, int inventory, Category category); // parametrized constructor
 	virtual ~Book(); // destructor
 										//Should change title[] to "const char *title" ??
 	int getID();
