@@ -99,6 +99,7 @@ void writeData(Catalog *pCatalog) {
 	char c;
 	cout << "Press any key to return to the main menu: ";
 	cin >> c;
+
 }
 
 //=====================================================================================
@@ -119,39 +120,6 @@ void menu() {
 	cout << endl << "Please enter your choice (s, c, r, a, b, i, e, p, q) --> ";
 }
 
-//=====================================================================================
-// function branching() - Process user input and branches program
-//=====================================================================================
-void branching(char c, Catalog *pCatalog, ShoppingCart *pShoppingCart) {		// branch to chosen function
-	switch(c) {
-		case 's':	recommendationsList(pCatalog);
-			break;
-		case 'c':	addToCatalog(pCatalog);
-			break;
-		case 'r':	removeFromCatalog(pCatalog);
-			break;
-		case 'a':	addToShoppingCart(pShoppingCart);
-			break;
-		case 'b':	checkOut(pShoppingCart);
-			break;
-		case 'i':	readData(pCatalog);
-			break;
-		case 'e':	writeData(pCatalog);
-			break;
-		case 'p':	pCatalog->print();
-			break;
-		case 'q':	cout << endl << "@Exiting the program..............." << endl;
-			cin.get();	//type any key.
-			break;
-		default:	cout << endl << "@ERROR - Invalid input." << endl;
-			cout << "@Try again....." << endl;
-	}
-}
 
-//=====================================================================================
-// function addToCatalog() - Prompts user for input and inserts new book into the catalog
-//=====================================================================================
-void addToCatalog(pCatalog) {
 
-}
 #endif //P5_DATA_H

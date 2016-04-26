@@ -6,15 +6,15 @@
 using namespace std;
 
 //Main declarations
-int main();				// The main function
+int main(int argc, char *argv[]);				// The main function
 void menu();			// display main choices
-void branching(char);	// branch to the chosen function
+void branching(char c, Catalog *pCatalog, ShoppingCart *pShoppingCart);	// branch to the chosen function
 
 
 //=====================================================================================
 // function addToCatalog()
 //=====================================================================================
-void addToCatalog(){
+void addToCatalog(Catalog *catalog){
 	//Not sure if I have to redeclare these... as I was working on getting this, I tried to access Book
 	//To do something like cin.getline(Book::title, 50), etc. etc. but I followed the similar style
 	//from the previous assignment.
@@ -35,7 +35,7 @@ void addToCatalog(){
 	cout<<"ADDING A NEW BOOK TO THE CATALOG"<<endl;
 	cout<<"================================"<<endl;
 	cout<<"Note: Before adding a new book to the catalog, please look at what we already have..."<<endl;
-	static Catalog::print();
+	catalog->print();
 
 	cout << "Enter the Category of the book: Textbook, Fiction, or Magazine: ";
 	cin.ignore();
@@ -54,23 +54,25 @@ void addToCatalog(){
 			cout<<"BookType is TEXTBOOK."<<endl;
 			//Uncertain on how to do this but almost feel that under this have it then
 			//do the construction of Textbook(bookID,title,price,category)
-
+			break;
 		}
 		case BOOK: {
 			cout<<"BookType is BOOK."<<endl;
+			break;
 		}
 		case FICTION: {
 			cout<<"BookType is FICTION."<<endl;
 			cout<<"Please enter name of author: "<<endl;
 			cin.getline(author,50);
 			//Perhaps should call in here fiction.setauthor(author)
+			break;
 		}
 		case MAGAZINE: {
 			cout<<"BookType is MAGAZINE."<<endl;
 			cout<<"Please enter Magazine issue: "<<endl;
 			cin>>issue;
 			//Perhaps should call in here magazine.setissue(author)
-
+			break;
 		}
 	}
 	cout<<"Please enter the book ID: "<<endl;
@@ -96,7 +98,7 @@ void addToCatalog(){
 //=====================================================================================
 // function addToShoppingCart()
 //=====================================================================================
-int addToShoppingCart() {
+void addToShoppingCart(ShoppingCart *shoppingCart) {
 	Book *book = new Book;
 	char title[50];
 
@@ -112,22 +114,25 @@ int addToShoppingCart() {
 //=====================================================================================
 // function checkOut()
 //=====================================================================================
-int checkOut();
+void checkOut(ShoppingCart *shoppingCart) {
+
+}
 
 //=====================================================================================
 // function main()
 //=====================================================================================
 int main(int argc, char *argv[]) {
-
+cout << "Starting main" << endl;
 	//Call the catalog which will bring us to import a file to start the program
 	Catalog *catalog = new Catalog();
 	ShoppingCart *shoppingCart = new ShoppingCart();
-
-	cout << endl << "Welcome to The Electronic Bookstore" << endl;
+cout << "Step" << endl;
+	cout << endl << "Welcome to The Electronic Bookstoree" << endl;
 
 	char input;
 
 	do {
+		cout << "Loop" << endl;
 		menu();
 
 		cin >> input;
@@ -135,6 +140,8 @@ int main(int argc, char *argv[]) {
 		branching(input, catalog, shoppingCart);
 
 	} while(input != 'q');
+
+	cout << "Out of loop" << endl;
 
 	catalog->print();
 
@@ -147,8 +154,44 @@ int main(int argc, char *argv[]) {
 		menu();				// display choices
 		cin >> ch;			// enter a choice from the keyboard
 		ch = tolower(ch);	// convert to lower case
-		branching(ch);		// branch to the chosen function
+		branching(ch, catalog, shoppingCart);		// branch to the chosen function
 	}
 	while (ch != 'q');			// 'q' for quit
 	return 0;
+}
+
+void recommendationsList(Catalog *pCatalog) {
+
+}
+void removeFromCatalog(Catalog *pCatalog) {
+
+}
+
+//=====================================================================================
+// function branching() - Process user input and branches program
+//=====================================================================================
+void branching(char c, Catalog *pCatalog, ShoppingCart *pShoppingCart) {		// branch to chosen function
+	switch(c) {
+		case 's':	recommendationsList(pCatalog);
+			break;
+		case 'c':	addToCatalog(pCatalog);
+			break;
+		case 'r':	removeFromCatalog(pCatalog);
+			break;
+		case 'a':	addToShoppingCart(pShoppingCart);
+			break;
+		case 'b':	checkOut(pShoppingCart);
+			break;
+		case 'i':	readData(pCatalog);
+			break;
+		case 'e':	writeData(pCatalog);
+			break;
+		case 'p':	pCatalog->print();
+			break;
+		case 'q':	cout << endl << "@Exiting the program..............." << endl;
+			cin.get();	//type any key.
+			break;
+		default:	cout << endl << "@ERROR - Invalid input." << endl;
+			cout << "@Try again....." << endl;
+	}
 }

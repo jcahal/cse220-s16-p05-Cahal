@@ -75,7 +75,7 @@ void Catalog::print() {
 	}
 
 	std::cout << "This catalog contains "<< this->nBooks << " books" << std::endl;
-	while(book->getNext() != NULL) {
+	while(book != NULL) {
 		std::cout << book->getTitle() << " { " << std::endl;
 		std::cout << "\tID: " << book->getID() << "," << std::endl;
 		std::cout << "\tPrice: $" << book->getPrice() << "," << std::endl;
