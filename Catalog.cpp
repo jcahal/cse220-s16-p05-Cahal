@@ -23,7 +23,7 @@ void Catalog::freeBooks(Book *book) {
 }
 
 Book *Catalog::getHead() {
-	return this->getHead();
+	return head;
 }
 
 int Catalog::getNumBooks() {

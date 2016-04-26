@@ -169,15 +169,26 @@ void addToCatalog(Catalog *catalog){
 	int issue;
 	int ISBN;
 	char author[50];
-
+	char x;
 
 	cout<<"ADDING A NEW BOOK TO THE CATALOG"<<endl;
 	cout<<"================================"<<endl;
-	cout<<"Note: Before adding a new book to the catalog, please look at what we already have..."<<endl;
-	catalog->print();
+	cout<<"Note: Before adding a new book to the catalog, would you like to see what we have already? (Y/N)"<<endl;
+	cin>>x;
+	x = tolower(x);
+	switch(x){
+		case 'y': catalog->print();
+			break;
+		case 'n': break;
+		default: cout << endl << "@ERROR - Invalid input." << endl;
+			cout << "@Try again....." << endl;
+	}
+
+
 
 
 	cout<<"Please enter the book ID: ";
+	cin.ignore();
 	cin>>bookID;
 	cout<<"Please enter the name of book: ";
 	cin.ignore();
@@ -188,8 +199,9 @@ void addToCatalog(Catalog *catalog){
 	cin>>inventory;
 
 	bool valid = false;
+	cout << "Enter the Category of the book: Textbook, Fiction, Magazine, or Other: ";
 	do {
-		cout << "Enter the Category of the book: Textbook, Fiction, Magazine, or Other: ";
+
 		cin.getline(bookType, 50);
 
 		if (strcmp(bookType, "Textbook") ==0) {
@@ -212,35 +224,39 @@ void addToCatalog(Catalog *catalog){
 
 	switch (category) {
 		case TEXTBOOK: {
-			cout<<"BookType is TEXTBOOK."<<endl;
+			cout<<"Attempting to add a textbook."<<endl;
 			cout<<"Please enter textbook's ISBN number: "<<endl;
 			cin>>ISBN;
 			cout<<"Please enter the textbook's author: "<<endl;
 			cin.getline(TextBookAuthor, 50);
 
 			catalog->insertBook((Book *)(new Textbook(bookID, title, price, inventory, ISBN, TextBookAuthor, category)));
+			cout<<"New textbook was added to the catalog."<<endl;
 			break;
 		}
 		case BOOK: {
-			cout<<"BookType is BOOK."<<endl;
+			cout<<"Attempting to add a book."<<endl;
 
 			catalog->insertBook(new Book(bookID, title, price, inventory, category));
+			cout<<"New book was added to the catalog."<<endl;
 			break;
 		}
 		case FICTION: {
-			cout<<"BookType is FICTION."<<endl;
+			cout<<"Attempting to add a fiction novel."<<endl;
 			cout<<"Please enter name of author: "<<endl;
 			cin.getline(author,50);
 
 			catalog->insertBook((Book *)(new Fiction(bookID, title, price, inventory, author, category)));
+			cout<<"New fiction novel was added to the catalog."<<endl;
 			break;
 		}
 		case MAGAZINE: {
-			cout<<"BookType is MAGAZINE."<<endl;
+			cout<<"Attempting to add a magazine."<<endl;
 			cout<<"Please enter Magazine issue: "<<endl;
 			cin>>issue;
 
 			catalog->insertBook((Book *)(new Magazine(bookID, title, price, inventory, issue, category)));
+			cout<<"New magazine was added to the catalog."<<endl;
 			break;
 		}
 		default:
@@ -249,33 +265,60 @@ void addToCatalog(Catalog *catalog){
 
 }
 
+//=====================================================================================
+// function recommendationsList()
+//=====================================================================================
 void recommendationsList(Catalog *pCatalog) {
-	Book *one, *two, *three;
 
-	cout << pCatalog->getNumBooks() << endl;
 	Book *b = pCatalog->getHead();
-	one = b;
-	two = b;
-	three = b;
 
-	while(b != NULL) {
-		if(b->getInventory() > one->getInventory()) {
-			one = b;
-		}
-		else if(b->getInventory() > two->getInventory()) {
-			two = b;
-		}
-		else if(b->getInventory() > three->getInventory()) {
-			three = b;
-		}
+	if (b==0){
+		cout<<"Empty Catalog."<<endl;
 
-		b = b->getNext();
+		char c;
+		cout << "Press any key to continue: "<<endl;
+		cin >> c;
+		return;
 	}
 
-	cout<<"Our Recommendation List!"<<endl;
-	cout<<one->getTitle()<<" Is our #1 Seller!"<<endl;
-	cout<<two->getTitle()<<" Is our #2 Seller!"<<endl;
-	cout<<three->getTitle()<<" Is our #3 Seller!"<<endl;
+	int one = 0;
+	int two = 0;
+	int three = 0;
+	char OneTitle[255];
+	char TwoTitle[255];
+	char ThreeTitle[255];
+
+	while(b != NULL) {
+		if(b->getInventory() > one) {
+			three = two;
+			strcpy(ThreeTitle, TwoTitle);
+			two = one;
+			strcpy(TwoTitle, OneTitle);
+			one = (int)b->getInventory();
+			strcpy(OneTitle, b->getTitle());
+		}
+		else if(b->getInventory() > two) {
+			three = two;
+			strcpy(ThreeTitle, TwoTitle);
+			two = (int)b->getInventory();
+			strcpy(TwoTitle,b->getTitle());
+		}
+		else if(b->getInventory() > three) {
+			three = (int) b->getInventory();
+			strcpy(ThreeTitle,b->getTitle());
+		}
+		b = b->getNext();
+	}
+	cout << "\n========================"  <<endl;
+	cout <<   "OUR RECOMMENDATION LIST!"  <<endl;
+	cout <<   "========================\n"  <<endl;
+	cout << OneTitle << " is our #1 Seller! "<< one <<endl;
+	cout << TwoTitle << " is our #2 Seller! "<< two <<endl;
+	cout << ThreeTitle << " is our #3 Seller! "<< three <<endl;
+
+	char c;
+	cout << "Press any key to continue: ";
+	cin >> c;
 
 }
 
