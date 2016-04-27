@@ -87,12 +87,35 @@ void writeData(Catalog *pCatalog) {
 
 	if(ofCatalog.is_open()) {
 		Book *book = pCatalog->getHead();
-		while(book->getNext() != NULL) {
+		Textbook *textbook;
+		Magazine *magazine;
+		Fiction *fiction;
+
+		while(book != NULL) {
 			ofCatalog << book->getTitle() << endl;
 			ofCatalog << book->getID() << endl;
 			ofCatalog << "$" << book->getPrice() << endl;
 			ofCatalog << book->getInventory() << endl;
+
+			switch(book->getCategory()) {
+				case TEXTBOOK:
+					textbook = (Textbook *) book;
+					ofCatalog << textbook->getISBN() << std::endl;
+					break;
+				case MAGAZINE:
+					magazine = (Magazine *) book;
+					ofCatalog << magazine->getIssue() << std::endl;
+					break;
+				case FICTION:
+					fiction = (Fiction *) book;
+					ofCatalog << fiction->getAuthor() << std::endl;
+					break;
+				default:
+					break;
+			}
 			ofCatalog << endl;
+
+			book = book->getNext();
 		}
 
 	} else {
