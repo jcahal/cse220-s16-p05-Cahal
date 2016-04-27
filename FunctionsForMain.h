@@ -20,7 +20,7 @@ using namespace std;
 void recommendationsList(Catalog *pCatalog);
 void addToCatalog(Catalog *pCatalog);
 void removeFromCatalog(Catalog *pCatalog);
-void addToShoppingCart(ShoppingCart *pShoppingCart);
+void addToShoppingCart(ShoppingCart *pShoppingCart, Catalog *pCatalog);
 void checkOut(ShoppingCart *pShoppingCart);
 void readData(Catalog *pCatalog);
 void writeData(Catalog *pCatalog);
@@ -136,7 +136,7 @@ void branching(char c, Catalog *pCatalog, ShoppingCart *pShoppingCart) {		// bra
 			break;
 		case 'r':	removeFromCatalog(pCatalog);
 			break;
-		case 'a':	addToShoppingCart(pShoppingCart);
+		case 'a':	addToShoppingCart(pShoppingCart, pCatalog);
 			break;
 		case 'b':	checkOut(pShoppingCart);
 			break;
@@ -170,22 +170,22 @@ void addToCatalog(Catalog *catalog){
 	int ISBN;
 	char author[50];
 	char x;
+	bool error =false;
 
-	cout<<"ADDING A NEW BOOK TO THE CATALOG"<<endl;
+	cout<<"\nADDING A NEW BOOK TO THE CATALOG"<<endl;
 	cout<<"================================"<<endl;
 	cout<<"Note: Before adding a new book to the catalog, would you like to see what we have already? (Y/N)"<<endl;
 	cin>>x;
 	x = tolower(x);
-	switch(x){
-		case 'y': catalog->print();
-			break;
-		case 'n': break;
-		default: cout << endl << "@ERROR - Invalid input." << endl;
-			cout << "@Try again....." << endl;
-	}
-
-
-
+		switch (x) {
+			case 'y':
+				catalog->print();
+				break;
+			case 'n':
+				break;
+			default:
+				cout << endl << "ERROR - Invalid input." << endl;
+		}
 
 	cout<<"Please enter the book ID: ";
 	cin.ignore();
@@ -309,12 +309,13 @@ void recommendationsList(Catalog *pCatalog) {
 		}
 		b = b->getNext();
 	}
-	cout << "\n========================"  <<endl;
-	cout <<   "OUR RECOMMENDATION LIST!"  <<endl;
-	cout <<   "========================\n"  <<endl;
-	cout << OneTitle << " is our #1 Seller! "<< one <<endl;
-	cout << TwoTitle << " is our #2 Seller! "<< two <<endl;
-	cout << ThreeTitle << " is our #3 Seller! "<< three <<endl;
+
+		cout << "\n========================" << endl;
+		cout << "OUR RECOMMENDATION LIST!" << endl;
+		cout << "========================" << endl;
+		cout << OneTitle << " is our #1 seller! " << endl;
+		cout << TwoTitle << " is our #2 seller! " << endl;
+		cout << ThreeTitle << " is our #3 seller! " << endl;
 
 	char c;
 	cout << "Press any key to continue: ";
@@ -326,12 +327,101 @@ void removeFromCatalog(Catalog *pCatalog) {
 
 }
 
-void addToShoppingCart(ShoppingCart *pShoppingCart) {
+void addToShoppingCart(ShoppingCart *pShoppingCart, Catalog *pCatalog) {
+	char title[255];
+	Category typeBook;
+	int id;
+	cout << "\n============================="  <<endl;
+	cout<<    "WELCOME TO YOUR SHOPPING CART"<<endl;
+	cout <<   "============================="  <<endl;
+	cout<<"If you have not already looked at our Top 3 Recommendations, consider taking one of them home! "<<endl;
+
+	//trying to call recommendation list to call and just list our top 3, but if you look it will run the
+	//file back to main and never continue past: if there were a way to just call a recommend:display and
+	//call just the 3 without running the full void function bridging back to main, it would resolve the issue
+
+	//recommendationsList::display;
+	cout<<"\nTo purchase from our current catalog, please enter the item's ID of the desired purchase as found in the catalog.  "<<endl;
+	//pCatalog->print();
+	cin.ignore();
+	cin>>id;
+	//cin.ignore();
+
+	//I feel that the issue is calling *b a Book; this is what only allows b to point to getID, title, price,
+	// and inventory. We need b to change to be of that class.
+
+	//What if we could compare the ID's, and based on ID have it add the equivalent type of book to the cart.
+
+	Book *b = pCatalog->getHead();
+
+
+	while(pCatalog->getHead()!=NULL){
+		//cout<<b->getID()<<endl;
+
+		//if you change it back to if (id = b->getID()) it will run without segmentation fault.
+		if(id == pCatalog->getHead()->getID()){
+			cout<<"Item was found in catalog."<<endl;
+
+			//like above if you change to b->getCategory() it will run without fault.
+			typeBook = pCatalog->getHead()->getCategory();
+
+			switch(typeBook){
+				case TEXTBOOK: {
+					//I feel doing something like this for each class will let us call the type specific values
+					//I didnt do for Magazine and Fiction, but look at the pShoppingCart->insert below
+					//and let me know what you think..
+
+					//FYI it is running a segmentation fault with the current if clause.
+					Textbook *t = (Textbook*)pCatalog->getHead();
+					cout<<"Attempting to add the book the the shopping cart."<<endl;
+					pShoppingCart->insertBook((Textbook *)(new Textbook(t->getID(), t->getTitle(), t->getPrice(), t->getInventory(), t->getISBN(), t->getTextAuthor(), typeBook)));
+					cout<<"The textbook was added to the shopping cart."<<endl;
+					break;
+				}
+				case BOOK: {
+					cout<<"Attempting to add the book to the shopping cart."<<endl;
+
+					//pShoppingCart->insertBook(new Book(b->getID(), b->getTitle(), b->getPrice(), b->getInventory(), typeBook));
+					cout<<"The book was added to the shopping cart."<<endl;
+					break;
+				}
+				case FICTION: {
+					cout<<"Attempting to add the fiction novel to the shopping cart."<<endl;
+					//pShoppingCart->insertBook((Fiction *)(new Fiction(bookID, title, price, inventory, author, category)));
+					cout<<"The fiction novel was added to the shopping cart."<<endl;
+					break;
+				}
+				case MAGAZINE: {
+					cout<<"Attempting to add the magazine to the shopping cart."<<endl;
+
+					//pShoppingCart->insertBook((Magazine *)(new Magazine(bookID, title, price, inventory, issue, category)));
+					cout<<"The magazine was added to the shopping cart."<<endl;
+					break;
+				}
+				default:
+					break;
+			}
+
+
+
+			//pShoppingCart->insertBook(b->Book());
+
+			//cout<<b->Book(b->getID(),b->getTitle(),b->getPrice(),b->getInventory(),b->getCategory())<<endl;
+			break;
+		}
+		else{
+			//cout<<"Item not found in catalog; please add a valid item to shopping cart. "<<endl;
+		}
+
+
+		b =b->getNext();
+	}
+
 
 }
 
 void checkOut(ShoppingCart *pShoppingCart) {
-
+	pShoppingCart->print();
 }
 
 
