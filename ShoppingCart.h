@@ -10,23 +10,25 @@
 #include "Magazine.h"
 #include "Textbook.h"
 #include "Fiction.h"
+#include "Item.h"
 #include "ANSI_Colors.h"
 
 class ShoppingCart {
 private:
-	int nBooks;
-	Book *head;
+	int nItems;
+	Item *head;
 
 public:
 	ShoppingCart();
 	~ShoppingCart();
+	void freeItems(Item *item);
 
-	Book *getHead();
-	int getNumBooks();
-	void setHead(Book *book);
-	void setNumBooks(int nBooks);
-	void insertBook(Book *book);
-	void removeBook(int id);
+	Item *getHead();
+	int getNumItems();
+	void setHead(Item *item);
+	void setNumItems(int nItems);
+	void insertItem(Item *item);
+	void removeItem(int id);
 	void print();
 	void checkout();
 };

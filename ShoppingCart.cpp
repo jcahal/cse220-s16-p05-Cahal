@@ -6,41 +6,49 @@
 
 ShoppingCart::ShoppingCart() {
 	this->head = 0;
-	this->nBooks = 0;
+	this->nItems = 0;
 }
 
 ShoppingCart::~ShoppingCart() {
+	freeItems(this->head);
 	std::cout << "ShoppingCart Destroyed" << std::endl;
 }
 
-Book *ShoppingCart::getHead() {
+void ShoppingCart::freeItems(Item *item) {
+	while(item != NULL) {
+		freeItems(item->getNext());
+	}
+	delete item;
+}
+
+Item *ShoppingCart::getHead() {
 	return this->getHead();
 }
 
-int ShoppingCart::getNumBooks() {
-	return this->nBooks;
+int ShoppingCart::getNumItems() {
+	return this->nItems;
 }
 
-void ShoppingCart::setHead(Book *book) {
-	this->head = book;
+void ShoppingCart::setHead(Item *item) {
+	this->head = item;
 }
 
-void ShoppingCart::setNumBooks(int nBooks) {
-	this->nBooks = nBooks;
+void ShoppingCart::setNumItems(int nItems) {
+	this->nItems = nItems;
 }
 
-void ShoppingCart::insertBook(Book *book) {
+void ShoppingCart::insertItem(Item *item) {
 	if(this->head == 0) {
-		this->head = book;
+		this->head = item;
 	} else {
-		book->setNext(this->head);
-		this->head = book;
+		item->setNext(this->head);
+		this->head = item;
 	}
-	this->nBooks++;
+	this->nItems++;
 }
 
-void ShoppingCart::removeBook(int id) {
-	Book *node = this->head;
+void ShoppingCart::removeItem(int id) {
+	Item *node = this->head;
 
 	if(node == NULL) {
 		std::cout << "\nWARNING: Shopping cart empty. Cannot remove a book that doesn't exist. Returning to menu." << std::endl;
@@ -49,19 +57,21 @@ void ShoppingCart::removeBook(int id) {
 	}
 
 	// check if head is the node to remove
-	if(node->getID() == id) {
+	if(node->getBook()->getID() == id) {
 		this->head = node->getNext();
-		this->nBooks--;
+		delete node;
+		this->nItems--;
 		return;
 	}
 
-	Book *prev = node; // make prev head
+	Item *prev = node; // make prev head
 	node = node->getNext(); // move node past head
 
 	while(node != NULL) {
-		if(node->getID() == id) {
+		if(node->getBook()->getID() == id) {
 			prev->setNext(node->getNext());
-			this->nBooks--;
+			delete node;
+			this->nItems--;
 			return;
 		}
 
@@ -73,24 +83,25 @@ void ShoppingCart::removeBook(int id) {
 }
 
 void ShoppingCart::print() {
-	Book *book = this->head;
+	Item *item = this->head;
 	Textbook *textbook;
 	Magazine *magazine;
 	Fiction *fiction;
 
-	if(book == NULL) {
+	if(item == NULL) {
 		std::cout << "\nShopping cart empty. Returning to menu." << std::endl;
 		std::cout <<   "=======================================" << std::endl;
 		return;
 	}
 
-	std::cout << "This shopping cart contains "<< this->nBooks << " books" << std::endl;
-	while(book != NULL) {
+	std::cout << "This shopping cart contains "<< this->nItems << " books" << std::endl;
+	while(item != NULL) {
+		Book *book = item->getBook();
 
 		// this stuff didn't seem to work 100%. It skips the book but doesn't print the msg
 		if(book->getPrice() < 0) { // if book has been removed from catalog
 			std::cout << ANSI_COLOR_RED"This book has been removed from the catalog"ANSI_COLOR_RESET << std::endl;
-			book = book->getNext(); // !don't forget to move the loop along before continuing
+			item = item->getNext(); // !don't forget to move the loop along before continuing
 			continue;
 		}
 		std::cout << "Title: "<< book->getTitle() << std::endl;
@@ -118,7 +129,7 @@ void ShoppingCart::print() {
 
 		std::cout << std::endl;
 
-		book = book->getNext();
+		item = item->getNext();
 	}
 
 	char c;
@@ -130,9 +141,9 @@ void ShoppingCart::checkout() {
 	double cost = 0.0;
 
 	while(this->head != NULL) {
-		cost += this->head->getPrice();
-		this->head->setInventory(this->head->getInventory() - 1);
-		this->removeBook(this->head->getID()); // this will make head point to head->getNext()
+		cost += this->head->getBook()->getPrice();
+		this->head->getBook()->setInventory(this->head->getBook()->getInventory() - 1);
+		this->removeItem(this->head->getBook()->getID()); // this will make head point to head->getNext()
 	}
 
 	cost += cost * .09; // add 9% tax

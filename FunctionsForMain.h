@@ -382,7 +382,7 @@ void removeFromShoppingCart(ShoppingCart *pShoppingCart) {
 	cin.ignore();
 	cin>>id;
 
-	pShoppingCart->removeBook(id);
+	pShoppingCart->removeItem(id);
 
 }
 
@@ -403,7 +403,7 @@ void addToShoppingCart(ShoppingCart *pShoppingCart, Catalog *pCatalog) {
 
 	Book *b = pCatalog->search(id);
 
-	pShoppingCart->insertBook(b);
+	pShoppingCart->insertItem(new Item(b));
 }
 
 void checkOut(ShoppingCart *pShoppingCart) {

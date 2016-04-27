@@ -12,5 +12,6 @@
 #include "FunctionsForMain.h"
 #include "Catalog.h"
 #include "ShoppingCart.h"
+#include "Item.h"
 
 #endif //P5_INCLUDES_H
