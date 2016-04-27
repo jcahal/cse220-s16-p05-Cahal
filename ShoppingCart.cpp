@@ -43,7 +43,8 @@ void ShoppingCart::removeBook(int id) {
 	Book *node = this->head;
 
 	if(node == NULL) {
-		std::cout << "Cannot remove, shopping cart Empty" << std::endl;
+		std::cout << "\nWARNING: Shopping cart empty. Cannot remove a book that doesn't exist. Returning to menu." << std::endl;
+		std::cout <<   "=========================================================================================" << std::endl;
 		return;
 	}
 
@@ -68,7 +69,7 @@ void ShoppingCart::removeBook(int id) {
 		node = node->getNext();
 	}
 
-	std::cout << "Book does not exist" << std::endl; // if it gets this far, then it's not there
+	std::cout << "\nWARNING: Book does not exist in shopping cart. Returning to menu." << std::endl; // if it gets this far, then it's not there
 }
 
 void ShoppingCart::print() {
@@ -78,7 +79,8 @@ void ShoppingCart::print() {
 	Fiction *fiction;
 
 	if(book == NULL) {
-		std::cout << "Shopping cart Empty" << std::endl;
+		std::cout << "\nShopping cart empty. Returning to menu." << std::endl;
+		std::cout <<   "=======================================" << std::endl;
 		return;
 	}
 
@@ -89,23 +91,24 @@ void ShoppingCart::print() {
 			book = book->getNext(); // !don't forget to move the loop along before continuing
 			continue;
 		}
-		std::cout << book->getTitle() << std::endl;
-		std::cout << book->getID() << std::endl;
-		std::cout << book->getPrice() << std::endl;
-		std::cout << book->getInventory() << std::endl;
+		std::cout << "Title: "<< book->getTitle() << std::endl;
+		std::cout << "ID: " << book->getID() << std::endl;
+		std::cout << "Price: $" << book->getPrice() << std::endl;
+		std::cout << "In Stock: " << book->getInventory() << std::endl;
 
 		switch(book->getCategory()) {
 			case TEXTBOOK:
 				textbook = (Textbook *)book;
-				std::cout << textbook->getISBN() << std::endl;
+				std::cout << "ISBN: " << textbook->getISBN() << std::endl;
+				std::cout << "Author: " << textbook->getTextAuthor() << std::endl;
 				break;
 			case MAGAZINE:
 				magazine = (Magazine *)book;
-				std::cout << magazine->getIssue() << std::endl;
+				std::cout << "Issue #: " << magazine->getIssue() << std::endl;
 				break;
 			case FICTION:
 				fiction = (Fiction *)book;
-				std::cout << fiction->getAuthor() << std::endl;
+				std::cout << "Author: " << fiction->getAuthor() << std::endl;
 				break;
 			default:
 				break;

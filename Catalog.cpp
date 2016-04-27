@@ -52,7 +52,8 @@ void Catalog::removeBook(int id) {
 	Book *node = this->head;
 
 	if(node == NULL) {
-		std::cout << "Cannot remove, catalog Empty" << std::endl;
+		std::cout << "\nWARNING: Catalog empty. Cannot remove a book that doesn't exist. Returning to menu." << std::endl;
+		std::cout <<   "===================================================================================" << std::endl;
 		return;
 	}
 
@@ -79,7 +80,7 @@ void Catalog::removeBook(int id) {
 		node = node->getNext();
 	}
 
-	std::cout << "Book does not exist" << std::endl; // if it gets this far, then it's not there
+	std::cout << "\nWARNING: Book does not exist in catalog. Returning to menu." << std::endl; // if it gets this far, then it's not there
 }
 
 void Catalog::print() {
@@ -89,29 +90,33 @@ void Catalog::print() {
 	Fiction *fiction;
 
 	if(book == NULL) {
-		std::cout << "Cannot print, catalog Empty" << std::endl;
+		std::cout << "\nCatalog empty. Returning to menu." << std::endl;
+		std::cout <<   "=================================" << std::endl;
 		return;
 	}
 
-	std::cout << "This catalog contains "<< this->nBooks << " books" << std::endl;
+	std::cout << "\nWELCOME TO OUR CATALOG DISPLAY" << std::endl;
+	std::cout <<   "==============================" << std::endl;
+	std::cout << "Our catalog currently contains "<< this->nBooks << " books.\n" << std::endl;
 	while(book != NULL) {
-		std::cout << book->getTitle() << std::endl;
-		std::cout << book->getID() << std::endl;
-		std::cout << book->getPrice() << std::endl;
-		std::cout << book->getInventory() << std::endl;
+		std::cout << "Title: "<< book->getTitle() << std::endl;
+		std::cout << "ID: " << book->getID() << std::endl;
+		std::cout << "Price: $" << book->getPrice() << std::endl;
+		std::cout << "In Stock: " << book->getInventory() << std::endl;
 
 		switch(book->getCategory()) {
 			case TEXTBOOK:
 				textbook = (Textbook *)book;
-				std::cout << textbook->getISBN() << std::endl;
+				std::cout << "ISBN: " << textbook->getISBN() << std::endl;
+				std::cout << "Author: " << textbook->getTextAuthor() << std::endl;
 				break;
 			case MAGAZINE:
 				magazine = (Magazine *)book;
-				std::cout << magazine->getIssue() << std::endl;
+				std::cout << "Issue #: " << magazine->getIssue() << std::endl;
 				break;
 			case FICTION:
 				fiction = (Fiction *)book;
-				std::cout << fiction->getAuthor() << std::endl;
+				std::cout << "Author: " << fiction->getAuthor() << std::endl;
 				break;
 			default:
 				break;
@@ -131,9 +136,14 @@ void Catalog::print() {
 Book *Catalog::search(int bookID) {
 	Book *book = this->getHead();
 
+	if (book ==NULL){
+		std::cout << "WARNING: No books in catalog." <<std::endl;
+	}
 	while(book != NULL) {
-		if(book->getID() == bookID)
+		if(book->getID() == bookID) {
+			std::cout <<"Catalog item with ID: "<< bookID << " was found. "<<std::endl;
 			break;
+		}
 		book = book->getNext();
 	}
 
