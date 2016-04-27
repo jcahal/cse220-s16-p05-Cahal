@@ -26,6 +26,7 @@ public:
 	void insertBook(Book *book);
 	void removeBook(int id);
 	void print();
+	Book *search(int bookID);
 };
 
 #endif //P5_CATALOG_H

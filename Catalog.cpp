@@ -91,3 +91,16 @@ void Catalog::print() {
 
 	std::cin >> c;
 }
+
+// searches catalog for a book, returns NULL if book not found
+Book *Catalog::search(int bookID) {
+	Book *book = this->getHead();
+
+	while(book != NULL) {
+		if(book->getID() == bookID)
+			break;
+		book = book->getNext();
+	}
+
+	return book;
+}

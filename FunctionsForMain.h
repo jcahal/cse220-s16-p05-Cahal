@@ -355,7 +355,7 @@ void addToShoppingCart(ShoppingCart *pShoppingCart, Catalog *pCatalog) {
 	Book *b = pCatalog->getHead();
 
 
-	while(pCatalog->getHead()!=NULL){
+	while(b !=NULL){
 		//cout<<b->getID()<<endl;
 
 		//if you change it back to if (id = b->getID()) it will run without segmentation fault.
