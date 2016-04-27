@@ -56,18 +56,39 @@ void Catalog::removeBook(int id) {
 		return;
 	}
 
-	Book *prev = node;
-	node = node->getNext();
-
-	while(node->getNext() != NULL) {
-		if(node->getID() == id) {
-
-		}
+	// check if head is the node to remove
+	if(node->getID() == id) {
+		this->head = node->getNext();
+		node->setID(-1); // for checking in shopping cart
+		delete node;
+		this->nBooks--;
+		return;
 	}
+
+	Book *prev = node; // make prev head
+	node = node->getNext(); // move node past head
+
+	while(node != NULL) {
+		if(node->getID() == id) {
+			prev->setNext(node->getNext());
+			node->setID(-1); // for checking in shopping cart
+			delete node;
+			this->nBooks--;
+			return;
+		}
+
+		prev = node;
+		node = node->getNext();
+	}
+
+	std::cout << "Book does not exist" << std::endl; // if it gets this far, then it's not there
 }
 
 void Catalog::print() {
 	Book *book = this->head;
+	Textbook *textbook;
+	Magazine *magazine;
+	Fiction *fiction;
 
 	if(book == NULL) {
 		std::cout << "Cannot print, catalog Empty" << std::endl;
@@ -76,19 +97,35 @@ void Catalog::print() {
 
 	std::cout << "This catalog contains "<< this->nBooks << " books" << std::endl;
 	while(book != NULL) {
-		std::cout << book->getTitle() << " { " << std::endl;
-		std::cout << "\tID: " << book->getID() << "," << std::endl;
-		std::cout << "\tPrice: $" << book->getPrice() << "," << std::endl;
-		std::cout << "\tInventory: " << book->getInventory() << "," << std::endl;
-		std::cout << "}" << std::endl;
+		std::cout << book->getTitle() << std::endl;
+		std::cout << book->getID() << std::endl;
+		std::cout << book->getPrice() << std::endl;
+		std::cout << book->getInventory() << std::endl;
+
+		switch(book->getCategory()) {
+			case TEXTBOOK:
+				textbook = (Textbook *)book;
+				std::cout << textbook->getISBN() << std::endl;
+				break;
+			case MAGAZINE:
+				magazine = (Magazine *)book;
+				std::cout << magazine->getIssue() << std::endl;
+				break;
+			case FICTION:
+				fiction = (Fiction *)book;
+				std::cout << fiction->getAuthor() << std::endl;
+				break;
+			default:
+				break;
+		}
+
+		std::cout << std::endl; // line break between books
 
 		book = book->getNext();
 	}
 
 	char c;
-
 	std::cout << "Press any key to continue: ";
-
 	std::cin >> c;
 }
 

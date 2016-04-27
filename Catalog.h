@@ -7,6 +7,9 @@
 
 #include <iostream>
 #include "Book.h"
+#include "Magazine.h"
+#include "Textbook.h"
+#include "Fiction.h"
 #include "ANSI_Colors.h"
 
 class Catalog {

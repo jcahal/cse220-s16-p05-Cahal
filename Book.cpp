@@ -5,7 +5,7 @@
 #include "Book.h"
 
 Book::Book() {
-	Book(-1, NULL, 0.00, 1, BOOK);
+	Book(-1, "\0", 0.00, 1, BOOK);
 }
 
 Book::Book(int bookID, const char title[], double price, int inventory, Category category) {

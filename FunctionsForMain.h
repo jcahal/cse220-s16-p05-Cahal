@@ -20,6 +20,7 @@ using namespace std;
 void recommendationsList(Catalog *pCatalog);
 void addToCatalog(Catalog *pCatalog);
 void removeFromCatalog(Catalog *pCatalog);
+void removeFromShoppingCart(ShoppingCart *pShoppingCart);
 void addToShoppingCart(ShoppingCart *pShoppingCart, Catalog *pCatalog);
 void checkOut(ShoppingCart *pShoppingCart);
 void readData(Catalog *pCatalog);
@@ -115,14 +116,17 @@ void menu() {
 	cout << "----" << endl;
 	cout << "s: See our Recommendations!" << endl;
 	cout << "c: Add a book to the catalog." << endl;
-	cout << "r: Remove a book from the catalog." << endl;
 	cout << "a: Add books to the shopping cart." << endl;
+	cout << "r: Remove a book from the catalog." << endl;
+	cout << "x: Remove a book from the shopping cart." << endl;
 	cout << "b: Proceed to check out."<<endl;
 	cout << "i: Import a book file." << endl;
 	cout << "e: Export a book file." << endl;
 	cout << "p: Display the catalog." << endl;
+	cout << "d: Display the shopping cart." << endl;
+	cout << "$: to checkout" << endl;
 	cout << "q: Exit the store." << endl;
-	cout << endl << "Please enter your choice (s, c, r, a, b, i, e, p, q) --> ";
+	cout << endl << "Please enter your choice (s, c, r, a, b, i, e, p, d, $, q) --> ";
 }
 
 //=====================================================================================
@@ -134,9 +138,11 @@ void branching(char c, Catalog *pCatalog, ShoppingCart *pShoppingCart) {		// bra
 			break;
 		case 'c':	addToCatalog(pCatalog);
 			break;
+		case 'a':	addToShoppingCart(pShoppingCart, pCatalog);
+			break;
 		case 'r':	removeFromCatalog(pCatalog);
 			break;
-		case 'a':	addToShoppingCart(pShoppingCart, pCatalog);
+		case 'x':	removeFromShoppingCart(pShoppingCart);
 			break;
 		case 'b':	checkOut(pShoppingCart);
 			break;
@@ -145,6 +151,10 @@ void branching(char c, Catalog *pCatalog, ShoppingCart *pShoppingCart) {		// bra
 		case 'e':	writeData(pCatalog);
 			break;
 		case 'p':	pCatalog->print();
+			break;
+		case 'd':	pShoppingCart->print();
+			break;
+		case '$':	pShoppingCart->checkout();
 			break;
 		case 'q':	cout << endl << "@Exiting the program..............." << endl;
 			cin.get();	//type any key.
@@ -324,100 +334,51 @@ void recommendationsList(Catalog *pCatalog) {
 }
 
 void removeFromCatalog(Catalog *pCatalog) {
+	int id;
+	cout << "\n============================="  <<endl;
+	cout<<    "REMOVE FROM CATALOG"<<endl;
+	cout <<   "============================="  <<endl;
+
+	cout<<"\nTo remove a book from our current catalog, please enter the item's ID as found in the catalog: ";
+	cin.ignore();
+	cin>>id;
+
+	pCatalog->removeBook(id);
+
+}
+
+void removeFromShoppingCart(ShoppingCart *pShoppingCart) {
+	int id;
+	cout << "\n============================="  <<endl;
+	cout<<    "REMOVE FROM SHOPPING CART"<<endl;
+	cout <<   "============================="  <<endl;
+
+	cout<<"\nTo remove a book from your current shopping cart, please enter the item's ID: ";
+	cin.ignore();
+	cin>>id;
+
+	pShoppingCart->removeBook(id);
 
 }
 
 void addToShoppingCart(ShoppingCart *pShoppingCart, Catalog *pCatalog) {
-	char title[255];
-	Category typeBook;
 	int id;
 	cout << "\n============================="  <<endl;
 	cout<<    "WELCOME TO YOUR SHOPPING CART"<<endl;
 	cout <<   "============================="  <<endl;
 	cout<<"If you have not already looked at our Top 3 Recommendations, consider taking one of them home! "<<endl;
 
-	//trying to call recommendation list to call and just list our top 3, but if you look it will run the
-	//file back to main and never continue past: if there were a way to just call a recommend:display and
-	//call just the 3 without running the full void function bridging back to main, it would resolve the issue
+	recommendationsList(pCatalog);
 
-	//recommendationsList::display;
-	cout<<"\nTo purchase from our current catalog, please enter the item's ID of the desired purchase as found in the catalog.  "<<endl;
+	cout<<"\nTo purchase from our current catalog, please enter the item's ID of the desired purchase as found in the catalog: ";
 	//pCatalog->print();
 	cin.ignore();
 	cin>>id;
 	//cin.ignore();
 
-	//I feel that the issue is calling *b a Book; this is what only allows b to point to getID, title, price,
-	// and inventory. We need b to change to be of that class.
+	Book *b = pCatalog->search(id);
 
-	//What if we could compare the ID's, and based on ID have it add the equivalent type of book to the cart.
-
-	Book *b = pCatalog->getHead();
-
-
-	while(b !=NULL){
-		//cout<<b->getID()<<endl;
-
-		//if you change it back to if (id = b->getID()) it will run without segmentation fault.
-		if(id == pCatalog->getHead()->getID()){
-			cout<<"Item was found in catalog."<<endl;
-
-			//like above if you change to b->getCategory() it will run without fault.
-			typeBook = pCatalog->getHead()->getCategory();
-
-			switch(typeBook){
-				case TEXTBOOK: {
-					//I feel doing something like this for each class will let us call the type specific values
-					//I didnt do for Magazine and Fiction, but look at the pShoppingCart->insert below
-					//and let me know what you think..
-
-					//FYI it is running a segmentation fault with the current if clause.
-					Textbook *t = (Textbook*)pCatalog->getHead();
-					cout<<"Attempting to add the book the the shopping cart."<<endl;
-					pShoppingCart->insertBook((Textbook *)(new Textbook(t->getID(), t->getTitle(), t->getPrice(), t->getInventory(), t->getISBN(), t->getTextAuthor(), typeBook)));
-					cout<<"The textbook was added to the shopping cart."<<endl;
-					break;
-				}
-				case BOOK: {
-					cout<<"Attempting to add the book to the shopping cart."<<endl;
-
-					//pShoppingCart->insertBook(new Book(b->getID(), b->getTitle(), b->getPrice(), b->getInventory(), typeBook));
-					cout<<"The book was added to the shopping cart."<<endl;
-					break;
-				}
-				case FICTION: {
-					cout<<"Attempting to add the fiction novel to the shopping cart."<<endl;
-					//pShoppingCart->insertBook((Fiction *)(new Fiction(bookID, title, price, inventory, author, category)));
-					cout<<"The fiction novel was added to the shopping cart."<<endl;
-					break;
-				}
-				case MAGAZINE: {
-					cout<<"Attempting to add the magazine to the shopping cart."<<endl;
-
-					//pShoppingCart->insertBook((Magazine *)(new Magazine(bookID, title, price, inventory, issue, category)));
-					cout<<"The magazine was added to the shopping cart."<<endl;
-					break;
-				}
-				default:
-					break;
-			}
-
-
-
-			//pShoppingCart->insertBook(b->Book());
-
-			//cout<<b->Book(b->getID(),b->getTitle(),b->getPrice(),b->getInventory(),b->getCategory())<<endl;
-			break;
-		}
-		else{
-			//cout<<"Item not found in catalog; please add a valid item to shopping cart. "<<endl;
-		}
-
-
-		b =b->getNext();
-	}
-
-
+	pShoppingCart->insertBook(b);
 }
 
 void checkOut(ShoppingCart *pShoppingCart) {
