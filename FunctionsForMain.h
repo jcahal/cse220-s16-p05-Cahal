@@ -261,6 +261,7 @@ void addToCatalog(Catalog *catalog){
 			cout<<"Please enter textbook's ISBN number: "<<endl;
 			cin>>ISBN;
 			cout<<"Please enter the textbook's author: "<<endl;
+			cin.ignore();
 			cin.getline(TextBookAuthor, 50);
 
 			catalog->insertBook((Book *)(new Textbook(bookID, title, price, inventory, ISBN, TextBookAuthor, category)));
@@ -306,7 +307,8 @@ void recommendationsList(Catalog *pCatalog) {
 	Book *b = pCatalog->getHead();
 
 	if (b==0){
-		cout<<"Empty Catalog."<<endl;
+		cout << "\nDue to an empty catalog at this time we have no recommendations." << endl;
+		cout <<   "================================================================" << endl;
 
 		char c;
 		cout << "Press any key to continue: "<<endl;
@@ -344,8 +346,8 @@ void recommendationsList(Catalog *pCatalog) {
 	}
 
 		cout << "\n========================" << endl;
-		cout << "OUR RECOMMENDATION LIST!" << endl;
-		cout << "========================" << endl;
+		cout <<   "OUR RECOMMENDATION LIST!" << endl;
+		cout <<   "========================" << endl;
 		cout << OneTitle << " is our #1 seller! " << endl;
 		cout << TwoTitle << " is our #2 seller! " << endl;
 		cout << ThreeTitle << " is our #3 seller! " << endl;
@@ -358,9 +360,9 @@ void recommendationsList(Catalog *pCatalog) {
 
 void removeFromCatalog(Catalog *pCatalog) {
 	int id;
-	cout << "\n============================="  <<endl;
+	cout << "\n==================="  <<endl;
 	cout<<    "REMOVE FROM CATALOG"<<endl;
-	cout <<   "============================="  <<endl;
+	cout <<   "==================="  <<endl;
 
 	cout<<"\nTo remove a book from our current catalog, please enter the item's ID as found in the catalog: ";
 	cin.ignore();
