@@ -84,7 +84,9 @@ void ShoppingCart::print() {
 
 	std::cout << "This shopping cart contains "<< this->nBooks << " books" << std::endl;
 	while(book != NULL) {
-		if(book->getID() == -1) { // if book has been removed from catalog
+
+		// this stuff didn't seem to work 100%. It skips the book but doesn't print the msg
+		if(book->getPrice() < 0) { // if book has been removed from catalog
 			std::cout << ANSI_COLOR_RED"This book has been removed from the catalog"ANSI_COLOR_RESET << std::endl;
 			book = book->getNext(); // !don't forget to move the loop along before continuing
 			continue;
