@@ -18,6 +18,10 @@ Book::Book(int bookID, const char title[], double price, int inventory, Category
 }
 
 Book::~Book() {
+	this->bookID = -1;
+	this->title[0] = '\0';
+	this-->price = -1.0;
+	this->inventory = -1;
 	std::cout << "Book destroyed" << std::endl;
 }
 

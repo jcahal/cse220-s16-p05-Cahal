@@ -59,7 +59,6 @@ void Catalog::removeBook(int id) {
 	// check if head is the node to remove
 	if(node->getID() == id) {
 		this->head = node->getNext();
-		node->setID(-1); // for checking in shopping cart
 		delete node;
 		this->nBooks--;
 		return;
@@ -71,7 +70,6 @@ void Catalog::removeBook(int id) {
 	while(node != NULL) {
 		if(node->getID() == id) {
 			prev->setNext(node->getNext());
-			node->setID(-1); // for checking in shopping cart
 			delete node;
 			this->nBooks--;
 			return;
